@@ -27,12 +27,6 @@ jobs:
     - uses: actions/checkout@v4
       name: 检出代码
 
-    - name: 测试
-      run: |
-        echo "${{ env.ENVIRONMENT }}"
-        echo "${{ vars }}"
-        echo "${{ vars.MS_CLARITY_ID }}"
-
     - uses: pnpm/action-setup@v4
       name: 安装 pnpm
       with:
@@ -51,4 +45,4 @@ jobs:
 
     - name: 编译
       run: |
-        pnpm build
+        MS_CLARITY_ID=${{ vars.MS_CLARITY_ID }} pnpm build

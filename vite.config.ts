@@ -13,6 +13,7 @@ import MsClarity from "vite-plugin-ms-clarity";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
+  console.log(process.env.TEST);
   return {
     base: mode === 'development' ? '' : '/app/pick-gua',
     server: {
