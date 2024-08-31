@@ -45,4 +45,4 @@ jobs:
 
     - name: 编译
       run: |
-        MS_CLARITY_ID=${{ vars.MS_CLARITY_ID }} pnpm build
+        MS_CLARITY_ID=${{ vars.MS_CLARITY_ID }} pnpm build:prod
