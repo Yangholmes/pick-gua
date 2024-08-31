@@ -44,4 +44,5 @@ jobs:
 
     - name: 编译
       run: |
+        echo "$MS_CLARITY_ID"
         pnpm build
