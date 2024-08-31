@@ -29,6 +29,7 @@ jobs:
 
     - name: 测试
       run: |
+        echo "${{ env.ENVIRONMENT }}"
         echo "${{ vars }}"
         echo "${{ vars.MS_CLARITY_ID }}"
 
