@@ -17,6 +17,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: prod
 
     strategy:
       matrix:
@@ -24,7 +25,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-      name: 切换分支
+      name: 检出代码
+
+    - name: 测试
+      run: |
+        echo "${{ vars }}"
+        echo "${{ vars.MS_CLARITY_ID }}"
 
     - uses: pnpm/action-setup@v4
       name: 安装 pnpm
@@ -44,5 +50,4 @@ jobs:
 
     - name: 编译
       run: |
-        echo "$MS_CLARITY_ID"
         pnpm build
