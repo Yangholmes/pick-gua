@@ -72,7 +72,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist
-          path: dist.tar.gz
+          path: ./
 
       - name: 解压产物
         run: |
