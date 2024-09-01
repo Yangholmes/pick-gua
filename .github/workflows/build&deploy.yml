@@ -41,7 +41,7 @@ jobs:
 
     - name: 编译
       run: |
-        MS_CLARITY_ID=${{ vars.MS_CLARITY_ID }} pnpm build:prod
+        MS_CLARITY_ID=${{ secrets.MS_CLARITY_ID }} pnpm build:prod
 
     - name: 打包产物
       run: tar -czf dist.tar.gz -C dist .
