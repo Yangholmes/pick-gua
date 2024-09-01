@@ -13,6 +13,7 @@ import MsClarity from "vite-plugin-ms-clarity";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
+  const MS_CLARITY_ID = process.env.MS_CLARITY_ID || '';
   return {
     base: mode === 'development' ? '' : '/app/pick-gua',
     server: {
@@ -23,7 +24,7 @@ export default defineConfig(({ mode }) => {
       vue(), vueJsx(),
       // basicSsl(),
       MsClarity({
-        id: '',
+        id: MS_CLARITY_ID,
         enableInDevMode: false,
         injectTo: 'body'
       })

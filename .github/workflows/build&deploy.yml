@@ -1,0 +1,87 @@
+name: project build and deploy
+
+on:
+  pull_request:
+    types:
+      - closed
+    # Sequence of patterns matched against refs/heads
+    branches:
+      - master
+
+jobs:
+  build:
+    if: github.event.pull_request.merged == true
+
+    runs-on: ubuntu-latest
+    environment: prod
+
+    strategy:
+      matrix:
+        node-version: [22.x]
+
+    steps:
+    - uses: actions/checkout@v4
+      name: 检出代码
+
+    - uses: pnpm/action-setup@v4
+      name: 安装 pnpm
+      with:
+        version: latest
+        run_install: false
+
+    - name: 安装 Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+
+    - name: 安装依赖
+      run: |
+        pnpm install
+
+    - name: 编译
+      run: |
+        MS_CLARITY_ID=${{ vars.MS_CLARITY_ID }} pnpm build:prod
+
+    - name: 打包产物
+      run: tar -czf dist.tar.gz -C dist .
+
+    - name: 上传产物
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist
+        path: dist.tar.gz
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          repository: Yangholmes/yangholmes.github.io
+          token: ${{ secrets.PUBLISH_TOKEN }}
+          path: yangholmes.github.io
+
+      - name: 下载构建产物
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: ./
+
+      - name: 解压产物
+        run: |
+          ls -al
+          tar -xzf dist.tar.gz -C yangholmes.github.io/app/pick-gua
+
+      - name: 发布到目的仓库
+        run: |
+          cd yangholmes.github.io
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add app/pick-gua
+          git commit -m 'feat: [bot]pick-gua publish new version!'
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
