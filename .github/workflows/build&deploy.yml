@@ -1,21 +1,17 @@
-name: vite project deploy
-
-# on:
-#   pull_request:
-#     types:
-#       - closed
-#     # Sequence of patterns matched against refs/heads
-#     branches:
-#       - master
-#       - feature/**
+name: project build and deploy
 
 on:
-  push:
+  pull_request:
+    types:
+      - closed
+    # Sequence of patterns matched against refs/heads
     branches:
-      - feature/**
+      - master
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true
+
     runs-on: ubuntu-latest
     environment: prod
 
