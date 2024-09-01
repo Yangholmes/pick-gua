@@ -48,7 +48,7 @@ jobs:
         MS_CLARITY_ID=${{ vars.MS_CLARITY_ID }} pnpm build:prod
 
     - name: 打包产物
-      run: tar -czf dist.tar.gz dist
+      run: tar -czf dist.tar.gz -C dist .
 
     - name: 上传产物
       uses: actions/upload-artifact@v4
