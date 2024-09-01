@@ -75,7 +75,9 @@ jobs:
           path: dist.tar.gz
 
       - name: 解压产物
-        run: tar -xzf dist.tar.gz -C yangholmes.github.io/app/pick-gua
+        run: |
+          ls -al
+          tar -xzf dist.tar.gz -C yangholmes.github.io/app/pick-gua
 
       - name: 发布到目的仓库
         run: |
